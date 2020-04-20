@@ -15,7 +15,7 @@ public class CensusAnalyser
     }
 
     // Read CSV file
-    public Integer readFile(String filePath) throws CensusAnalyserException, IOException
+    public Integer readFile(String filePath) throws CensusAnalyserException
     {
         int count = 0;
         try
@@ -41,6 +41,10 @@ public class CensusAnalyser
         catch (IOException e)
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"Enter correct file name and type");
+        }
+        catch (RuntimeException e)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.WRONG_DELIMETER,"Check delimiter");
         }
         return count;
     }
