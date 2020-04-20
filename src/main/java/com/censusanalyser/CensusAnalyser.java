@@ -1,12 +1,8 @@
 package com.censusanalyser;
-
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -19,7 +15,8 @@ public class CensusAnalyser
     }
 
     // Read CSV file
-    public Integer readFile(String filePath) throws CensusAnalyserException, IOException {
+    public Integer readFile(String filePath) throws CensusAnalyserException, IOException
+    {
         int count = 0;
         try
         {
@@ -30,7 +27,8 @@ public class CensusAnalyser
                     .build();
             Iterator<IndianStateCensusClass> stateIterator = csvToBean.iterator();
 
-            while (stateIterator.hasNext()) {
+            while (stateIterator.hasNext())
+            {
                 IndianStateCensusClass indianStateCensusclass = stateIterator.next();
                 System.out.println("State : " + indianStateCensusclass.getState());
                 System.out.println("population: " + indianStateCensusclass.getPopulation());
@@ -42,7 +40,7 @@ public class CensusAnalyser
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"Enter correct file name");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"Enter correct file name and type");
         }
         return count;
     }
