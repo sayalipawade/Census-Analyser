@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
@@ -30,11 +31,6 @@ public class CensusAnalyser
             while (stateIterator.hasNext())
             {
                 IndianStateCensusClass indianStateCensusclass = stateIterator.next();
-                System.out.println("State : " + indianStateCensusclass.getState());
-                System.out.println("population: " + indianStateCensusclass.getPopulation());
-                System.out.println("areaInSqKm : " + indianStateCensusclass.getAreaInSqKm());
-                System.out.println("densityPerSqKm : " + indianStateCensusclass.getDensityPerSqKm());
-                System.out.println("======================================");
                 count++;
             }
         }
@@ -42,9 +38,9 @@ public class CensusAnalyser
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"Enter correct file name and type");
         }
-        catch (RuntimeException e)
+        catch(RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.WRONG_DELIMETER,"Check delimiter");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,"Check delimiter and header");
         }
         return count;
     }

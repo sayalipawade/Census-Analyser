@@ -2,9 +2,7 @@ package com.censusanalysertest;
 import com.censusanalyser.CensusAnalyser;
 import com.censusanalyser.CensusAnalyserException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
 
 public class CensusAnalyserTest
 {
@@ -55,8 +53,21 @@ public class CensusAnalyserTest
         }
         catch (CensusAnalyserException e)
         {
-            Assert.assertEquals(CensusAnalyserException.Exception_Type.WRONG_DELIMETER,e.type);
+            Assert.assertEquals(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.type);
         }
+    }
 
+    /* TC1.5:Given csv file when header incorrect should throw exception*/
+    @Test
+    public void givenFilePath_WhenHeaderIncorrect_ThenThrowException()
+    {
+        try
+        {
+            censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensusDataWithWrongDelimiter.csv");
+        }
+        catch (CensusAnalyserException e)
+        {
+            Assert.assertEquals(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.type);
+        }
     }
 }
