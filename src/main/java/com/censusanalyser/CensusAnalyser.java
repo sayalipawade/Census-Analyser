@@ -1,10 +1,9 @@
 package com.censusanalyser;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
@@ -19,9 +18,8 @@ public class CensusAnalyser
     public Integer readFile(String filePath) throws CensusAnalyserException
     {
         int count = 0;
-        try
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));)
         {
-            BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
             CsvToBean<IndianStateCensusClass> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(IndianStateCensusClass.class)
                     .withIgnoreLeadingWhiteSpace(true)
@@ -36,12 +34,15 @@ public class CensusAnalyser
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"Enter correct file name and type");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND, "Enter correct file name and type");
         }
-        catch(RuntimeException e)
+        catch (RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,"Check delimiter and header");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER, "Check delimiter and header");
         }
         return count;
     }
+
+
 }
+
