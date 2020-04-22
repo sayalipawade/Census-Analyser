@@ -105,7 +105,7 @@ public class CensusAnalyserTest
         }
         catch (CensusAnalyserException e)
         {
-            Assert.assertEquals(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,e.type);
+            Assert.assertEquals(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND, e.type);
         }
     }
 }
