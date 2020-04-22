@@ -123,4 +123,19 @@ public class CensusAnalyserTest
             Assert.assertEquals(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,e.type);
         }
     }
+
+    /*TC 2.4:Given state code csv file when delimiter is incorrect should throw exception*/
+    @Test
+    public void givenFilePath_WhenDelimiterIncorrect_ThenThrowCustomException()
+    {
+        try
+        {
+            CSVStates csvStates=new CSVStates();
+            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
+        }
+        catch (CensusAnalyserException e)
+        {
+            Assert.assertEquals(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.type);
+        }
+    }
 }

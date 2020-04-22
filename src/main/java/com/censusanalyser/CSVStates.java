@@ -30,6 +30,10 @@ public class CSVStates
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"enter correct file name and type");
         }
+        catch (RuntimeException e)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,"check delimiter and header");
+        }
         return count;
     }
 }
