@@ -1,11 +1,8 @@
 package com.censusanalysertest;
-import com.censusanalyser.CSVStates;
 import com.censusanalyser.CensusAnalyser;
 import com.censusanalyser.CensusAnalyserException;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class CensusAnalyserTest
 {
