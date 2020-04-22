@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class CSVStates
 {
     //METHOD TO LOAD THE CSV FILE AND GET
-    public int loadIndianStateCodeData(String csvFilePath) throws IOException
+    public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException
     {
         int count=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
@@ -25,6 +25,10 @@ public class CSVStates
                 StateCodePOJO censusCSV = statesCSVIterator.next();
                 count++;
             }
+        }
+        catch (IOException e)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"enter correct file name and type");
         }
         return count;
     }

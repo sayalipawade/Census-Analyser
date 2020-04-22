@@ -87,11 +87,25 @@ public class CensusAnalyserTest
 
      /*TC2.1:Given State code csv file when no of records matches then return true */
     @Test
-    public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws IOException
+    public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws CensusAnalyserException
     {
         CSVStates csvStates=new CSVStates();
         Integer count=csvStates.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
         Assert.assertEquals((Integer)37,count);
+    }
 
+    /*TC2.2:Given State code csv file when incorrect file path should throw exception*/
+    @Test
+    public void givenFilePath_WhenFilePathCorrect_ThenThrowException()
+    {
+        try
+        {
+            CSVStates csvStates = new CSVStates();
+            csvStates.loadIndianStateCodeData(STATE_CODE_WRONG_CSV_FILE);
+        }
+        catch (CensusAnalyserException e)
+        {
+            Assert.assertEquals(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,e.type);
+        }
     }
 }
