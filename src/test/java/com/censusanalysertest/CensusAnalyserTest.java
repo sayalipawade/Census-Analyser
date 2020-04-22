@@ -1,17 +1,31 @@
 package com.censusanalysertest;
+import com.censusanalyser.CSVStates;
 import com.censusanalyser.CensusAnalyser;
 import com.censusanalyser.CensusAnalyserException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class CensusAnalyserTest
 {
+    private static final String STATE_CENSUS_CSV_FILE_PATH="src/test/resources/StateCensus.csv";
+    private static final String STATE_CENSUS_WRONG_FILE_PATH="src/test/resources/StateCensus1.csv";
+    private static final String STATE_CENSUS_WRONG_FILE_TYPE="src/test/resources/StateCensus.cs";
+    private static final String STATE_CENSUS_WRONG_DELIMITER="src/test/resources/StateCensusDataWithWrongDelimiter.csv";
+    private static final String STATE_CODE_CSV_FILE="src/test/resources/StateCode.csv";
+    private static final String STATE_CODE_WRONG_CSV_FILE="src/test/resources/StateCode1.csv";
+    private static final String STATE_CODE_WRONG_FILE_TYPE="src/test/resources/StateCode.txt";
+    private static final String STATE_CODE_WITH_WRONG_DELIMITER="src/test/resources/StateCodeWithWrongDelimiter.csv";
+
     CensusAnalyser censusAnalyser=new CensusAnalyser();
+
+
     /*TC1.1:Given the States Census CSV file, Check to ensure the Number of Record matches */
     @Test
     public void givenFilePath_WhenNoOfRecordMatch_ThenReturnTrue() throws CensusAnalyserException
     {
-        Integer noOfRecords=censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensus.csv");
+        Integer noOfRecords=censusAnalyser.readFile(STATE_CENSUS_CSV_FILE_PATH);
         Assert.assertEquals((Integer)29,noOfRecords);
     }
 
@@ -21,7 +35,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensus1.csv");
+            censusAnalyser.readFile(STATE_CENSUS_WRONG_FILE_PATH);
         }
         catch (CensusAnalyserException  e)
         {
@@ -35,7 +49,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensus1.cs");
+            censusAnalyser.readFile(STATE_CENSUS_WRONG_FILE_TYPE);
         }
         catch (CensusAnalyserException e)
         {
@@ -49,7 +63,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensusDataWithWrongDelimiter.csv");
+            censusAnalyser.readFile(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
@@ -63,11 +77,21 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.readFile("/home/asus/IdeaProjects/StateCensusAnalyser/src/test/resources/StateCensusDataWithWrongDelimiter.csv");
+            censusAnalyser.readFile(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
             Assert.assertEquals(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.type);
         }
+    }
+
+     /*TC2.1:Given State code csv file when no of records matches then return true */
+    @Test
+    public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws IOException
+    {
+        CSVStates csvStates=new CSVStates();
+        Integer count=csvStates.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+        Assert.assertEquals((Integer)37,count);
+
     }
 }
