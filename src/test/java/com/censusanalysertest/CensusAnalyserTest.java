@@ -1,11 +1,8 @@
 package com.censusanalysertest;
-import com.censusanalyser.CSVStates;
 import com.censusanalyser.CensusAnalyser;
 import com.censusanalyser.CensusAnalyserException;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class CensusAnalyserTest
 {
@@ -89,8 +86,7 @@ public class CensusAnalyserTest
     @Test
     public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws CensusAnalyserException
     {
-        CSVStates csvStates=new CSVStates();
-        Integer count=csvStates.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+        Integer count=censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
         Assert.assertEquals((Integer)37,count);
     }
 
@@ -100,8 +96,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates = new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CODE_WRONG_CSV_FILE);
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_WRONG_CSV_FILE);
         }
         catch (CensusAnalyserException e)
         {
@@ -115,8 +110,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_FILE_TYPE);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_FILE_TYPE);
         }
         catch (CensusAnalyserException e)
         {
@@ -130,8 +124,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
@@ -145,8 +138,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
