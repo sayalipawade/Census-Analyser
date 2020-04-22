@@ -15,7 +15,7 @@ public class CensusAnalyserTest
     private static final String STATE_CENSUS_WRONG_DELIMITER="src/test/resources/StateCensusDataWithWrongDelimiter.csv";
     private static final String STATE_CODE_CSV_FILE="src/test/resources/StateCode.csv";
     private static final String STATE_CODE_WRONG_CSV_FILE="src/test/resources/StateCode1.csv";
-    private static final String STATE_CODE_WRONG_FILE_TYPE="src/test/resources/StateCode.txt";
+    private static final String STATE_CODE_WRONG_FILE_TYPE="src/test/resources/StateCode.cs";
     private static final String STATE_CODE_WITH_WRONG_DELIMITER="src/test/resources/StateCodeWithWrongDelimiter.csv";
 
     CensusAnalyser censusAnalyser=new CensusAnalyser();
@@ -89,8 +89,7 @@ public class CensusAnalyserTest
     @Test
     public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws CensusAnalyserException
     {
-        CSVStates csvStates=new CSVStates();
-        Integer count=csvStates.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+        Integer count=censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
         Assert.assertEquals((Integer)37,count);
     }
 
@@ -100,8 +99,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates = new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CODE_WRONG_CSV_FILE);
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_WRONG_CSV_FILE);
         }
         catch (CensusAnalyserException e)
         {
@@ -115,8 +113,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_FILE_TYPE);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_FILE_TYPE);
         }
         catch (CensusAnalyserException e)
         {
@@ -130,8 +127,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
@@ -145,8 +141,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            CSVStates csvStates=new CSVStates();
-            csvStates.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
+            censusAnalyser.loadIndianStateCodeData(STATE_CENSUS_WRONG_DELIMITER);
         }
         catch (CensusAnalyserException e)
         {
