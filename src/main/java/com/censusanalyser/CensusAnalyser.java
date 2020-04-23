@@ -33,6 +33,11 @@ public class CensusAnalyser
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER, "Check delimiter and header");
         }
+        catch (CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     //Read State Code CSV file
@@ -54,6 +59,11 @@ public class CensusAnalyser
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER, "check delimiter and header");
         }
+        catch (CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
 

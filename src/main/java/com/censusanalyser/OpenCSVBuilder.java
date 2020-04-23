@@ -4,14 +4,14 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.Reader;
 import java.util.Iterator;
 
-public class OpenCSVBuilder
+public class OpenCSVBuilder implements ICSVBuilder
 {
-    public<E> Iterator<E> getCSVfile(Reader reader, Class<E> csvClass) throws CensusAnalyserException
+    public<E> Iterator<E> getCSVfile(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         return this.getCSVToBean(reader,csvClass).iterator();
     }
 
-    public<E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CensusAnalyserException
+    public<E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         try
         {
@@ -21,9 +21,9 @@ public class OpenCSVBuilder
             CsvToBean<E> csvToBean=csvToBeanBuilder.build();
             return csvToBean;
         }
-        catch (RuntimeException e)
+        catch (IllegalStateException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,"check delimiter and header");
+            throw new CSVBuilderException(CSVBuilderException.Exception_Type.UNABLE_TO_PARSE,"unable to parse");
         }
     }
 }
