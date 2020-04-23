@@ -17,7 +17,6 @@ public class CensusAnalyserTest
 
     CensusAnalyser censusAnalyser=new CensusAnalyser();
 
-
     /*TC1.1:Given the States Census CSV file, Check to ensure the Number of Record matches */
     @Test
     public void givenFilePath_WhenNoOfRecordMatch_ThenReturnTrue() throws CensusAnalyserException
