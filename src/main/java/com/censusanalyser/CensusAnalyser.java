@@ -22,7 +22,7 @@ public class CensusAnalyser
     }
 
     // Read State census CSV file
-    public Integer readFile(String filePath) throws CensusAnalyserException
+    public Integer loadIndianStateCensusData(String filePath) throws CensusAnalyserException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));)
         {
@@ -68,7 +68,7 @@ public class CensusAnalyser
         }
     }
 
-    //getting data of state
+    //getting state sorted data
     public String getStateWiseData() throws CensusAnalyserException
     {
         if(censusClassList.size()==0 | censusClassList==null)
@@ -81,6 +81,7 @@ public class CensusAnalyser
         return stateSortedCensusJson;
     }
 
+    //getting state code sorted data
     public String getStateCodeWiseSortedData() throws CensusAnalyserException
     {
         if(stateCodeList.size()==0 | stateCodeList==null)
