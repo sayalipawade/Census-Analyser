@@ -1,6 +1,9 @@
 package com.censusanalysertest;
+import com.censusanalyser.CSVBuilderException;
 import com.censusanalyser.CensusAnalyser;
 import com.censusanalyser.CensusAnalyserException;
+import com.censusanalyser.IndianStateCensusClass;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -83,7 +86,7 @@ public class CensusAnalyserTest
 
      /*TC2.1:Given State code csv file when no of records matches then return true */
     @Test
-    public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws CensusAnalyserException
+    public void givenFilePath_WhenNoOfRecordsMatches_ThenReturnTrue() throws CensusAnalyserException, CSVBuilderException
     {
         Integer count=censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
         Assert.assertEquals((Integer)37,count);
@@ -91,7 +94,7 @@ public class CensusAnalyserTest
 
     /*TC2.2:Given State code csv file when incorrect file path should throw exception*/
     @Test
-    public void givenFilePath_WhenFilePathCorrect_ThenThrowException()
+    public void givenFilePath_WhenFilePathCorrect_ThenThrowException() throws CSVBuilderException
     {
         try
         {
@@ -105,7 +108,7 @@ public class CensusAnalyserTest
 
     /*TC2.3:Given state code csv file when type is incorrect should throw exception*/
     @Test
-    public void givenFilePath_WhenTypeIncorrect_ThenThrowException()
+    public void givenFilePath_WhenTypeIncorrect_ThenThrowException() throws CSVBuilderException
     {
         try
         {
@@ -119,7 +122,7 @@ public class CensusAnalyserTest
 
     /*TC 2.4:Given state code csv file when delimiter is incorrect should throw exception*/
     @Test
-    public void givenFilePath_WhenDelimiterIncorrect_ThenThrowCustomException()
+    public void givenFilePath_WhenDelimiterIncorrect_ThenThrowCustomException() throws CSVBuilderException
     {
         try
         {
@@ -133,7 +136,7 @@ public class CensusAnalyserTest
 
     /*TC 2.5:Given state code csv file when header is incorrect should throw exception*/
     @Test
-    public void givenFilePath_WhenHeaderIncorrect_ThenThrowCustomException()
+    public void givenFilePath_WhenHeaderIncorrect_ThenThrowCustomException() throws CSVBuilderException
     {
         try
         {
@@ -143,5 +146,33 @@ public class CensusAnalyserTest
         {
             Assert.assertEquals(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.type);
         }
+    }
+
+    /*TC 3.1:Given state census csv data when sorted should return start state of census data*/
+    @Test
+    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnStartState()
+    {
+        try
+        {
+            censusAnalyser.readFile(STATE_CENSUS_CSV_FILE_PATH);
+            String sortedData = censusAnalyser.getStateWiseData();
+            IndianStateCensusClass[] censusData = new Gson().fromJson(sortedData, IndianStateCensusClass[].class);
+            Assert.assertEquals("Andhra Pradesh", censusData[0].state);
+        }
+        catch (CensusAnalyserException e) { }
+    }
+
+    /*TC 3.2:Given state census csv data when sorted should return End state of census data*/
+    @Test
+    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnEndState()
+    {
+        try
+        {
+            censusAnalyser.readFile(STATE_CENSUS_CSV_FILE_PATH);
+            String sortedData = censusAnalyser.getStateWiseData();
+            IndianStateCensusClass[] censusData = new Gson().fromJson(sortedData, IndianStateCensusClass[].class);
+            Assert.assertEquals("West Bengal", censusData[28].state);
+        }
+        catch (CensusAnalyserException e) { }
     }
 }

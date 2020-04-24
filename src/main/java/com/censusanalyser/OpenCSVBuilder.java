@@ -7,18 +7,18 @@ import java.util.List;
 
 public class OpenCSVBuilder implements ICSVBuilder
 {
-    public<E> Iterator<E> getCSVfile(Reader reader, Class<E> csvClass) throws CSVBuilderException
+    public <E>Iterator<E> getCSVfile(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         return this.getCSVToBean(reader,csvClass).iterator();
     }
 
     @Override
-    public<E> List<E> getFileList(Reader reader, Class<E> csvClass) throws CSVBuilderException
+    public <E>List<E> getFileList(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         return this.getCSVToBean(reader,csvClass).parse();
     }
 
-    private <E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException
+    public <E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         try
         {
