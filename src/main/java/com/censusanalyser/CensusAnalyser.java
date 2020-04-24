@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CensusAnalyser
 {
-    OpenCSVBuilder openCSV=new OpenCSVBuilder();
+  //  OpenCSVBuilder openCSV=new OpenCSVBuilder();
     public static void main(String[] args)
     {
         System.out.println("Welcome to census analyser");
@@ -18,8 +18,9 @@ public class CensusAnalyser
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));)
         {
-           List<IndianStateCensusClass> censusClassList=openCSV.getFileList(reader,IndianStateCensusClass.class);
-           return censusClassList.size();
+            ICSVBuilder icsvBuilder=CSVBuliderFactory.createCSVBulider();
+            List<IndianStateCensusClass> censusClassList=icsvBuilder.getFileList(reader,IndianStateCensusClass.class);
+            return censusClassList.size();
         }
         catch (IOException e)
         {
@@ -41,11 +42,11 @@ public class CensusAnalyser
     //Read State Code CSV file
     public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException
     {
-        int count = 0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
-           List<StateCodePOJO> stateCodePOJOList=openCSV.getFileList(reader,StateCodePOJO.class);
-           return stateCodePOJOList.size();
+            ICSVBuilder icsvBuilder=CSVBuliderFactory.createCSVBulider();
+            List<StateCodePOJO> stateCodePOJOList=icsvBuilder.getFileList(reader,StateCodePOJO.class);
+            return stateCodePOJOList.size();
         }
         catch (IOException e)
         {
