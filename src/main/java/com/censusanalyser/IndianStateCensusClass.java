@@ -25,35 +25,43 @@ public class IndianStateCensusClass
                     '}';
         }
 
-        public String getState() {
+        public String getState()
+        {
             return state;
         }
 
-        public void setState(String state) {
+        public void setState(String state)
+        {
             this.state = state;
         }
 
-        public String getPopulation() {
+        public String getPopulation()
+        {
             return population;
         }
 
-        public void setPopulation(String population) {
+        public void setPopulation(String population)
+        {
             this.population = population;
         }
 
-        public String getArea() {
+        public String getArea()
+        {
             return area;
         }
 
-        public void setArea(String area) {
+        public void setArea(String area)
+        {
             this.area = area;
         }
 
-        public String getDensity() {
+        public String getDensity()
+        {
             return density;
         }
 
-        public void setDensity(String density) {
+        public void setDensity(String density)
+        {
             this.density = density;
         }
     }
