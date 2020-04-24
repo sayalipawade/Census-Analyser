@@ -3,7 +3,7 @@ public class CensusAnalyserException extends Exception
 {
     public enum Exception_Type
     {
-        FILE_NOT_FOUND,INCORRECT_DELIMETER;
+        FILE_NOT_FOUND,INCORRECT_DELIMETER,UNABLE_TO_PARSE;
     }
     public Exception_Type type;
     public CensusAnalyserException(Exception_Type type,String message)

@@ -28,11 +28,13 @@ public class CSVStates
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,"enter correct file name and type");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
+                                                                                   "Enter correct file name and type");
         }
         catch (RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,"check delimiter and header");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
+                                                                                        "Check delimiter and header");
         }
         return count;
     }

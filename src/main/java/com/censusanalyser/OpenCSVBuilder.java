@@ -3,6 +3,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.Reader;
 import java.util.Iterator;
+import java.util.List;
 
 public class OpenCSVBuilder implements ICSVBuilder
 {
@@ -11,7 +12,13 @@ public class OpenCSVBuilder implements ICSVBuilder
         return this.getCSVToBean(reader,csvClass).iterator();
     }
 
-    public<E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException
+    @Override
+    public <E> List<E> getFileList(Reader reader, Class<E> csvClass) throws CSVBuilderException
+    {
+        return this.getCSVToBean(reader,csvClass).parse();
+    }
+
+    private <E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         try
         {
@@ -21,7 +28,7 @@ public class OpenCSVBuilder implements ICSVBuilder
             CsvToBean<E> csvToBean=csvToBeanBuilder.build();
             return csvToBean;
         }
-        catch (IllegalStateException e)
+        catch (RuntimeException e)
         {
             throw new CSVBuilderException(CSVBuilderException.Exception_Type.UNABLE_TO_PARSE,"unable to parse");
         }
