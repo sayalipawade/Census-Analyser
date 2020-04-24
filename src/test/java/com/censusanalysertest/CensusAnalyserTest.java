@@ -1,8 +1,5 @@
 package com.censusanalysertest;
-import com.censusanalyser.CSVBuilderException;
-import com.censusanalyser.CensusAnalyser;
-import com.censusanalyser.CensusAnalyserException;
-import com.censusanalyser.IndianStateCensusClass;
+import com.censusanalyser.*;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -174,5 +171,34 @@ public class CensusAnalyserTest
             Assert.assertEquals("West Bengal", censusData[28].state);
         }
         catch (CensusAnalyserException e) { }
+    }
+
+    /*TC 4.1:Given State code csv data when sorted should return start state */
+    @Test
+    public void givenStateCodeCSVData_WhenSorted_ThenReturnStartState() throws CSVBuilderException
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+            String sortData=censusAnalyser.getStateCodeWiseSortedData();
+            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
+            Assert.assertEquals("AD",csvCode[0].stateCode);
+        }
+        catch (CensusAnalyserException e){ }
+    }
+
+
+    /*TC 4.2:Given State code csv data when sorted should return End state */
+    @Test
+    public void givenStateCodeCSVData_WhenSorted_ThenReturnEndState() throws CSVBuilderException
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+            String sortData=censusAnalyser.getStateCodeWiseSortedData();
+            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
+            Assert.assertEquals("WB",csvCode[36].stateCode);
+        }
+        catch (CensusAnalyserException e){ }
     }
 }

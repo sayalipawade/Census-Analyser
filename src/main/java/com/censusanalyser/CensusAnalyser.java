@@ -13,7 +13,9 @@ import java.util.stream.StreamSupport;
 public class CensusAnalyser
 {
     List<IndianStateCensusClass> censusClassList=null;
+    List<StateCodePOJO> stateCodeList=null;
 
+    //main method
     public static void main(String[] args)
     {
         System.out.println("Welcome to census analyser");
@@ -51,8 +53,8 @@ public class CensusAnalyser
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
             ICSVBuilder icsvBuilder=CSVBuliderFactory.createCSVBulider();
-            List<StateCodePOJO> censusClassList=icsvBuilder.getFileList(reader,StateCodePOJO.class);
-            return censusClassList.size();
+            stateCodeList=icsvBuilder.getFileList(reader,StateCodePOJO.class);
+            return stateCodeList.size();
         }
         catch (IOException e)
         {
@@ -79,6 +81,18 @@ public class CensusAnalyser
         return stateSortedCensusJson;
     }
 
+    public String getStateCodeWiseSortedData() throws CensusAnalyserException
+    {
+        if(stateCodeList.size()==0 | stateCodeList==null)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No Data");
+        }
+        Comparator<StateCodePOJO> stateCodeComparator=Comparator.comparing(census->census.getStateCode());
+        this.sorting(stateCodeComparator);
+        String sortedStateCode=new Gson().toJson(stateCodeList);
+        return sortedStateCode;
+    }
+
     //count the total records in csv file
     private <E> int getCount(Iterator<E> iterator)
     {
@@ -87,7 +101,7 @@ public class CensusAnalyser
         return totalRecords;
     }
 
-    //Sort function to sort the data
+    //Sort function to sort the State census data
     public void sort(Comparator<IndianStateCensusClass> censusClassComparator)
     {
         for(int i=0;i<censusClassList.size();i++)
@@ -100,6 +114,24 @@ public class CensusAnalyser
                 {
                     censusClassList.set(j,census2);
                     censusClassList.set(j+1,census1);
+                }
+            }
+        }
+    }
+
+    //Sorting function to sort the state code data
+    public void sorting(Comparator<StateCodePOJO> stateCodeComparator)
+    {
+        for(int i=0;i<stateCodeList.size()-1;i++)
+        {
+            for(int j=0;j<stateCodeList.size()-i-1;j++)
+            {
+                StateCodePOJO census1=stateCodeList.get(j);
+                StateCodePOJO census2=stateCodeList.get(j+1);
+                if(stateCodeComparator.compare(census1,census2)>0)
+                {
+                    stateCodeList.set(j,census2);
+                    stateCodeList.set(j+1,census1);
                 }
             }
         }
