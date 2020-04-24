@@ -3,8 +3,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 public class CensusAnalyser
 {
@@ -17,21 +16,20 @@ public class CensusAnalyser
     // Read State census CSV file
     public Integer readFile(String filePath) throws CensusAnalyserException
     {
-        int noOfRecords=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));)
         {
-            Iterator<IndianStateCensusClass> stateCSVIterator = openCSV.getCSVfile(reader,IndianStateCensusClass.class);
-            Iterable<IndianStateCensusClass> csvIterable = ()-> stateCSVIterator;
-            noOfRecords=(int) StreamSupport.stream(csvIterable.spliterator(),false).count();
-            return noOfRecords;
+           List<IndianStateCensusClass> censusClassList=openCSV.getFileList(reader,IndianStateCensusClass.class);
+           return censusClassList.size();
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND, "Enter correct file name and type");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
+                                                                                "Enter correct file name and type");
         }
         catch (RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER, "Check delimiter and header");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
+                                                                                        "Check delimiter and header");
         }
         catch (CSVBuilderException e)
         {
@@ -46,18 +44,18 @@ public class CensusAnalyser
         int count = 0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
-            Iterator<StateCodePOJO> statesCSVIterator = openCSV.getCSVfile(reader,StateCodePOJO.class);
-            Iterable<StateCodePOJO> iterableStateCode= () -> statesCSVIterator;
-            int countRecord=(int)StreamSupport.stream(iterableStateCode.spliterator(),false).count();
-            return countRecord;
+           List<StateCodePOJO> stateCodePOJOList=openCSV.getFileList(reader,StateCodePOJO.class);
+           return stateCodePOJOList.size();
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND, "enter correct file name and type");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
+                                                                                    "Enter correct file name and type");
         }
         catch (RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER, "check delimiter and header");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
+                                                                                        "Check delimiter and header");
         }
         catch (CSVBuilderException e)
         {
