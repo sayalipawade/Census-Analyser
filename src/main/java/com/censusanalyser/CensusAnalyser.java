@@ -17,6 +17,8 @@ public class CensusAnalyser
     Map<String,IndianStateCensusClass> csvStateCensusMap=new HashMap<>();
     Map<String,StateCodePOJO> stateCodeMap=new HashMap<>();
 
+    OpenCSVBuilder openCSVBuilder=new OpenCSVBuilder();
+
     //main method
     public static void main(String[] args)
     {
@@ -48,8 +50,8 @@ public class CensusAnalyser
         }
     }
 
-    //Read State Code CSV file
-    public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException, CSVBuilderException
+   //Read State Code CSV file
+   public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException, CSVBuilderException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {

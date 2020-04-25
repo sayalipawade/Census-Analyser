@@ -23,6 +23,8 @@ public class CensusAnalyserTest
     {
         Integer noOfRecords=censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
         Assert.assertEquals((Integer)29,noOfRecords);
+        Integer count=censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+        Assert.assertEquals((Integer)37,count);
     }
 
     /* TC1.2:Given the State Census CSV File if incorrect Returns a custom Exception*/
