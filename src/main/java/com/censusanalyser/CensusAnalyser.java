@@ -5,15 +5,17 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser
 {
     List<IndianStateCensusClass> censusClassList=null;
     List<StateCodePOJO> stateCodeList=null;
+
+    Map<String,IndianStateCensusClass> csvStateCensusMap=new HashMap<>();
+    Map<String,StateCodePOJO> stateCodeMap=new HashMap<>();
 
     //main method
     public static void main(String[] args)
@@ -22,29 +24,28 @@ public class CensusAnalyser
     }
 
     // Read State census CSV file
-    public Integer loadIndianStateCensusData(String filePath) throws CensusAnalyserException
+    public Integer loadIndianStateCensusData(String filePath) throws CSVBuilderException, CensusAnalyserException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));)
         {
-            ICSVBuilder icsvBuilder=CSVBuliderFactory.createCSVBulider();
-            censusClassList=icsvBuilder.getFileList(reader,IndianStateCensusClass.class);
-            return censusClassList.size();
+            ICSVBuilder icsvBuilder = CSVBuliderFactory.createCSVBulider();
+            Iterator<IndianStateCensusClass> stateIterator = icsvBuilder.getCSVfile(reader, IndianStateCensusClass.class);
+            while (stateIterator.hasNext())
+            {
+                IndianStateCensusClass state = stateIterator.next();
+                this.csvStateCensusMap.put(state.getState(), state);
+                censusClassList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+            }
+            return csvStateCensusMap.size();
         }
         catch (IOException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
-                                                                                "Enter correct file name and type");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND, e.getMessage());
         }
         catch (RuntimeException e)
         {
-            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
-                                                                                        "Check delimiter and header");
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,e.getMessage());
         }
-        catch (CSVBuilderException e)
-        {
-            e.printStackTrace();
-        }
-        return  0;
     }
 
     //Read State Code CSV file
@@ -53,8 +54,14 @@ public class CensusAnalyser
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
             ICSVBuilder icsvBuilder=CSVBuliderFactory.createCSVBulider();
-            stateCodeList=icsvBuilder.getFileList(reader,StateCodePOJO.class);
-            return stateCodeList.size();
+            Iterator<StateCodePOJO> stateCodeIterator=icsvBuilder.getCSVfile(reader,StateCodePOJO.class);
+            while(stateCodeIterator.hasNext())
+            {
+                StateCodePOJO stateCode=stateCodeIterator.next();
+                this.stateCodeMap.put(stateCode.getStateCode(),stateCode);
+                stateCodeList=stateCodeMap.values().stream().collect(Collectors.toList());
+            }
+            return stateCodeMap.size();
         }
         catch (IOException e)
         {
@@ -76,7 +83,7 @@ public class CensusAnalyser
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No census data");
         }
         Comparator<IndianStateCensusClass> censusClassComparator=Comparator.comparing(census->census.getState());
-        this.sort(censusClassComparator);
+        this.sort(censusClassComparator,censusClassList);
         String stateSortedCensusJson=new Gson().toJson(censusClassList);
         return stateSortedCensusJson;
     }
@@ -89,7 +96,7 @@ public class CensusAnalyser
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No Data");
         }
         Comparator<StateCodePOJO> stateCodeComparator=Comparator.comparing(census->census.getStateCode());
-        this.sorting(stateCodeComparator);
+        this.sort(stateCodeComparator,stateCodeList);
         String sortedStateCode=new Gson().toJson(stateCodeList);
         return sortedStateCode;
     }
@@ -103,36 +110,18 @@ public class CensusAnalyser
     }
 
     //Sort function to sort the State census data
-    public void sort(Comparator<IndianStateCensusClass> censusClassComparator)
+    public<E> void sort(Comparator<E> censusClassComparator,List<E> censusClassList)
     {
         for(int i=0;i<censusClassList.size();i++)
         {
             for(int j=0;j<censusClassList.size()-i-1;j++)
             {
-                IndianStateCensusClass census1=censusClassList.get(j);
-                IndianStateCensusClass census2=censusClassList.get(j+1);
+                E census1=censusClassList.get(j);
+                E census2=censusClassList.get(j+1);
                 if(censusClassComparator.compare(census1,census2)>0)
                 {
                     censusClassList.set(j,census2);
                     censusClassList.set(j+1,census1);
-                }
-            }
-        }
-    }
-
-    //Sorting function to sort the state code data
-    public void sorting(Comparator<StateCodePOJO> stateCodeComparator)
-    {
-        for(int i=0;i<stateCodeList.size()-1;i++)
-        {
-            for(int j=0;j<stateCodeList.size()-i-1;j++)
-            {
-                StateCodePOJO census1=stateCodeList.get(j);
-                StateCodePOJO census2=stateCodeList.get(j+1);
-                if(stateCodeComparator.compare(census1,census2)>0)
-                {
-                    stateCodeList.set(j,census2);
-                    stateCodeList.set(j+1,census1);
                 }
             }
         }

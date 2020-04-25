@@ -19,7 +19,7 @@ public class CensusAnalyserTest
 
     /*TC1.1:Given the States Census CSV file, Check to ensure the Number of Record matches */
     @Test
-    public void givenFilePath_WhenNoOfRecordMatch_ThenReturnTrue() throws CensusAnalyserException
+    public void givenFilePath_WhenNoOfRecordMatch_ThenReturnTrue() throws CensusAnalyserException, CSVBuilderException
     {
         Integer noOfRecords=censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
         Assert.assertEquals((Integer)29,noOfRecords);
@@ -27,7 +27,7 @@ public class CensusAnalyserTest
 
     /* TC1.2:Given the State Census CSV File if incorrect Returns a custom Exception*/
     @Test
-    public void givenFilePath_WhenIncorrect_ThenThrow_Exception()
+    public void givenFilePath_WhenIncorrect_ThenThrow_Exception() throws CSVBuilderException
     {
         try
         {
@@ -39,9 +39,9 @@ public class CensusAnalyserTest
         }
     }
 
-    /*TC 1.3:Given csv file when type is incorrect should throw exception*/
+    /*TC1.3:Given csv file when type is incorrect should throw exception*/
     @Test
-    public void givenFilePath_WhenTypeIncorrect_thenThrowException()
+    public void givenFilePath_WhenTypeIncorrect_thenThrowException() throws CSVBuilderException
     {
         try
         {
@@ -53,9 +53,9 @@ public class CensusAnalyserTest
         }
     }
 
-    /*TC 1.4:Given State census csv file when correct but delimiter is incorrect should throw custom exception*/
+    /*TC1.4:Given State census csv file when correct but delimiter is incorrect should throw custom exception*/
     @Test
-    public void givenFilePath_WhenDelimiterIncorrect_ThenThrowException()
+    public void givenFilePath_WhenDelimiterIncorrect_ThenThrowException() throws CSVBuilderException
     {
         try
         {
@@ -67,9 +67,9 @@ public class CensusAnalyserTest
         }
     }
 
-    /* TC1.5:Given csv file when header incorrect should throw exception*/
+    /*TC1.5:Given csv file when header incorrect should throw exception*/
     @Test
-    public void givenFilePath_WhenHeaderIncorrect_ThenThrowException()
+    public void givenFilePath_WhenHeaderIncorrect_ThenThrowException() throws CSVBuilderException
     {
         try
         {
@@ -147,7 +147,7 @@ public class CensusAnalyserTest
 
     /*TC 3.1:Given state census csv data when sorted should return start state of census data*/
     @Test
-    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnStartState()
+    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnStartState() throws CSVBuilderException
     {
         try
         {
@@ -159,9 +159,9 @@ public class CensusAnalyserTest
         catch (CensusAnalyserException e) { }
     }
 
-    /*TC 3.2:Given state census csv data when sorted should return End state of census data*/
+    /*TC3.2:Given state census csv data when sorted should return End state of census data*/
     @Test
-    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnEndState()
+    public void givenIndiaCensusCsvData_WhenSorted_ThenreturnEndState() throws CSVBuilderException
     {
         try
         {
@@ -173,7 +173,7 @@ public class CensusAnalyserTest
         catch (CensusAnalyserException e) { }
     }
 
-    /*TC 4.1:Given State code csv data when sorted should return start state */
+    /*TC4.1:Given State code csv data when sorted should return start state */
     @Test
     public void givenStateCodeCSVData_WhenSorted_ThenReturnStartState() throws CSVBuilderException
     {
