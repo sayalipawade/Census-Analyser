@@ -112,6 +112,19 @@ public class CensusAnalyser
         return sortedCensusJson;
     }
 
+    //getting density in sorted order
+    public String getDensityWiseSortedData() throws CensusAnalyserException
+    {
+        if(censusDAOList.size()==0 | censusDAOList==null)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No Data");
+        }
+        Comparator<StateCensusDAO> stateCodeComparator=Comparator.comparing(census->census.densityPerSqKm);
+        this.sort(stateCodeComparator);
+        String sortedDensity=new Gson().toJson(censusDAOList);
+        return sortedDensity;
+    }
+
     //Sort function to sort the State census data
     public void sort(Comparator<StateCensusDAO> stateCensusDAOComparator)
     {

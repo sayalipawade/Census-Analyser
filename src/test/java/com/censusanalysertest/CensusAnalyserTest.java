@@ -217,4 +217,21 @@ public class CensusAnalyserTest
             e.printStackTrace();
         }
     }
+
+    /*TC 5.2: Given State Census data when sorted should return sorted start density state*/
+    @Test
+    public void givenIndiaCensusCSVData_WhenSorted_ThenReturnSortedStartDensity()
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
+            String sortedData=censusAnalyser.getDensityWiseSortedData();
+            IndianStateCensusClass[] censusData = new Gson().fromJson(sortedData, IndianStateCensusClass[].class);
+            Assert.assertEquals("Arunachal Pradesh",censusData[0].state);
+        }
+        catch (CensusAnalyserException | CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
