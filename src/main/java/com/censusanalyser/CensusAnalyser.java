@@ -7,9 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-public class CensusAnalyser<E>
+public class CensusAnalyser
 {
     Map<String, StateCensusDAO> csvStateCensusMap=new HashMap<>();
     List<StateCensusDAO> censusDAOList;
@@ -82,32 +81,50 @@ public class CensusAnalyser<E>
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No census data");
         }
         Comparator<StateCensusDAO> censusClassComparator=Comparator.comparing(csvStateCensusMap->csvStateCensusMap.state);
-        this.sort(censusClassComparator,censusDAOList);
+        this.sort(censusClassComparator);
         String stateSortedCensusJson=new Gson().toJson(censusDAOList);
         return stateSortedCensusJson;
     }
 
-    //count the total records in csv file
-    private <E> int getCount(Iterator<E> iterator)
+    //getting state code sorted data
+    public String getStateCodeWiseSortedData() throws CensusAnalyserException
     {
-        Iterable<E> iterable = () -> iterator;
-        int totalRecords = (int) StreamSupport.stream(iterable.spliterator(), false).count();
-        return totalRecords;
+        if(censusDAOList.size()==0 | censusDAOList==null)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No Data");
+        }
+        Comparator<StateCensusDAO> stateCodeComparator=Comparator.comparing(census->census.stateCode);
+        this.sort(stateCodeComparator);
+        String sortedStateCode=new Gson().toJson(censusDAOList);
+        return sortedStateCode;
+    }
+
+    //getting population in sorted order
+    public String getPopulationSortedData() throws CensusAnalyserException
+    {
+        if(censusDAOList.size()==0 || censusDAOList==null)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA, "No Data");
+        }
+        Comparator<StateCensusDAO> stateCensusDAOComparator = Comparator.comparing(census -> census.population);
+        this.sort(stateCensusDAOComparator);
+        String sortedCensusJson = new Gson().toJson(censusDAOList);
+        return sortedCensusJson;
     }
 
     //Sort function to sort the State census data
-    public<E> void sort(Comparator<E> censusClassComparator,List<E> censusClassList)
+    public void sort(Comparator<StateCensusDAO> stateCensusDAOComparator)
     {
-        for(int i=0;i<censusClassList.size();i++)
+        for(int i=0;i<censusDAOList.size();i++)
         {
-            for(int j=0;j<censusClassList.size()-i-1;j++)
+            for(int j=0;j<censusDAOList.size()-i-1;j++)
             {
-                E census1=censusClassList.get(j);
-                E census2=censusClassList.get(j+1);
-                if(censusClassComparator.compare(census1,census2)>0)
+                StateCensusDAO census1=censusDAOList.get(j);
+                StateCensusDAO census2=censusDAOList.get(j+1);
+                if(stateCensusDAOComparator.compare(census1,census2)>0)
                 {
-                    censusClassList.set(j,census2);
-                    censusClassList.set(j+1,census1);
+                    censusDAOList.set(j,census2);
+                    censusDAOList.set(j+1,census1);
                 }
             }
         }

@@ -6,7 +6,7 @@ public class IndianStateCensusClass
         public String state;
 
         @CsvBindByName(column="Population")
-        public int population;
+        public long population;
 
         @CsvBindByName(column = "AreaInSqKm")
         public int area;
@@ -33,7 +33,7 @@ public class IndianStateCensusClass
             this.state = state;
         }
 
-        public int getPopulation() {
+        public long getPopulation() {
             return population;
         }
 

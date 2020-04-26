@@ -173,4 +173,48 @@ public class CensusAnalyserTest
         catch (CensusAnalyserException e) { }
     }
 
+    /*TC 4.1:Given State code csv data when sorted should return start state */
+    @Test
+    public void givenStateCodeCSVData_WhenSorted_ThenReturnStartState() throws CSVBuilderException
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+            String sortData=censusAnalyser.getStateCodeWiseSortedData();
+            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
+            Assert.assertEquals("AD",csvCode[0].stateCode);
+        }
+        catch (CensusAnalyserException e){ }
+    }
+
+    /*TC 4.2:Given State code csv data when sorted should return End state */
+    @Test
+    public void givenStateCodeCSVData_WhenSorted_ThenReturnEndState() throws CSVBuilderException
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
+            String sortData=censusAnalyser.getStateCodeWiseSortedData();
+            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
+            Assert.assertEquals("WB",csvCode[36].stateCode);
+        }
+        catch (CensusAnalyserException e){ }
+    }
+
+    /*TC 5.1: Given State Census data when sorted should return sorted start population state*/
+    @Test
+    public void givenIndiaCensusCSVData_WhenSorted_ThenReturnSortedStartPopulationState()
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
+            String sortedData=censusAnalyser.getPopulationSortedData();
+            IndianStateCensusClass[] censusData = new Gson().fromJson(sortedData, IndianStateCensusClass[].class);
+            Assert.assertEquals(607688,censusData[0].population);
+        }
+        catch (CensusAnalyserException | CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
