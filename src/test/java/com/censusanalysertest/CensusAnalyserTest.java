@@ -23,8 +23,6 @@ public class CensusAnalyserTest
     {
         Integer noOfRecords=censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
         Assert.assertEquals((Integer)29,noOfRecords);
-        Integer count=censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
-        Assert.assertEquals((Integer)37,count);
     }
 
     /* TC1.2:Given the State Census CSV File if incorrect Returns a custom Exception*/
@@ -175,32 +173,4 @@ public class CensusAnalyserTest
         catch (CensusAnalyserException e) { }
     }
 
-    /*TC4.1:Given State code csv data when sorted should return start state */
-    @Test
-    public void givenStateCodeCSVData_WhenSorted_ThenReturnStartState() throws CSVBuilderException
-    {
-        try
-        {
-            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
-            String sortData=censusAnalyser.getStateCodeWiseSortedData();
-            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
-            Assert.assertEquals("AD",csvCode[0].stateCode);
-        }
-        catch (CensusAnalyserException e){ }
-    }
-
-
-    /*TC 4.2:Given State code csv data when sorted should return End state */
-    @Test
-    public void givenStateCodeCSVData_WhenSorted_ThenReturnEndState() throws CSVBuilderException
-    {
-        try
-        {
-            censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE);
-            String sortData=censusAnalyser.getStateCodeWiseSortedData();
-            StateCodePOJO[] csvCode=new Gson().fromJson(sortData,StateCodePOJO[].class);
-            Assert.assertEquals("WB",csvCode[36].stateCode);
-        }
-        catch (CensusAnalyserException e){ }
-    }
 }

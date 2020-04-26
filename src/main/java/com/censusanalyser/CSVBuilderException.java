@@ -13,4 +13,5 @@ public class CSVBuilderException extends Exception
         this.type=type;
         System.out.println(message);
     }
+
 }
