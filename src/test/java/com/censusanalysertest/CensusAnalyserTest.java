@@ -218,7 +218,7 @@ public class CensusAnalyserTest
         }
     }
 
-    /*TC 5.2: Given State Census data when sorted should return sorted start density state*/
+    /*TC 6.1: Given State Census data when sorted should return sorted start density state*/
     @Test
     public void givenIndiaCensusCSVData_WhenSorted_ThenReturnSortedStartDensity()
     {
@@ -234,4 +234,23 @@ public class CensusAnalyserTest
             e.printStackTrace();
         }
     }
+
+    /*TC 7.1:Given State census data when sorted should return sorted start Area state*/
+    @Test
+    public void givenIndiaCensusCSVData_WhenSorted_ThenReturnSortedStartArea()
+    {
+        try
+        {
+            censusAnalyser.loadIndianStateCensusData(STATE_CENSUS_CSV_FILE_PATH);
+            String sortedData=censusAnalyser.getAreaWiseSortedData();
+            IndianStateCensusClass[] censusData = new Gson().fromJson(sortedData, IndianStateCensusClass[].class);
+            Assert.assertEquals("Rajasthan",censusData[0].state);
+        }
+        catch (CensusAnalyserException | CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
+
+
