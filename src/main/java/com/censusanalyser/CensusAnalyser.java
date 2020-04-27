@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class CensusAnalyser
 {
@@ -26,13 +27,10 @@ public class CensusAnalyser
         {
             ICSVBuilder icsvBuilder = CSVBuliderFactory.createCSVBulider();
             Iterator<IndianStateCensusClass> stateIterator = icsvBuilder.getCSVfile(reader,IndianStateCensusClass.class);
-
-            while (stateIterator.hasNext())
-            {
-                IndianStateCensusClass indiaCensusCsv = stateIterator.next();
-                csvStateCensusMap.put(indiaCensusCsv.state,new StateCensusDAO(indiaCensusCsv));
-            }
-            censusDAOList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+            Iterable<IndianStateCensusClass> stateCensusIterable = () -> stateIterator;
+            StreamSupport.stream(stateCensusIterable.spliterator(),false).
+                    forEach(censusCSV->csvStateCensusMap.put(censusCSV.getState(),new StateCensusDAO(censusCSV)));
+            censusDAOList=csvStateCensusMap.values().stream().collect(Collectors.toList());
             return csvStateCensusMap.size();
         }
         catch (IOException e)
@@ -52,13 +50,10 @@ public class CensusAnalyser
         {
             ICSVBuilder icsvBuilder = CSVBuliderFactory.createCSVBulider();
             Iterator<StateCodePOJO> stateIterator = icsvBuilder.getCSVfile(reader,StateCodePOJO.class);
-
-            while (stateIterator.hasNext())
-            {
-                StateCodePOJO stateCodePOJO = stateIterator.next();
-                csvStateCensusMap.put(stateCodePOJO.state,new StateCensusDAO(stateCodePOJO));
-            }
-            censusDAOList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+            Iterable<StateCodePOJO> stateCodeIterable = () -> stateIterator;
+            StreamSupport.stream(stateCodeIterable.spliterator(),false).
+                    forEach(censusCSV->csvStateCensusMap.put(censusCSV.state,new StateCensusDAO(censusCSV)));
+            censusDAOList=csvStateCensusMap.values().stream().collect(Collectors.toList());
             return csvStateCensusMap.size();
         }
         catch (IOException e)
