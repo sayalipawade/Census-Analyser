@@ -24,5 +24,10 @@ public class StateCensusDAO
     public StateCensusDAO(USCensusClass usCensusClass)
     {
         stateId=usCensusClass.stateId;
+        state=usCensusClass.state;
+        population=usCensusClass.population;
+        areaInSqKm=usCensusClass.landArea;
+        densityPerSqKm=usCensusClass.populationDensity;
+
     }
 }

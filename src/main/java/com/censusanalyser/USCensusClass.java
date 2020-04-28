@@ -9,7 +9,7 @@ public class USCensusClass
     public String state;
 
     @CsvBindByName(column = "Population")
-    public String population;
+    public long population;
 
     @CsvBindByName(column ="Housing units")
     public String housingUnits;
@@ -21,10 +21,10 @@ public class USCensusClass
     public String water;
 
     @CsvBindByName(column = "Land area")
-    public String landArea;
+    public int landArea;
 
     @CsvBindByName(column = "Population Density")
-    public String populationDensity;
+    public int populationDensity;
 
     @CsvBindByName(column = "Housing Density")
     public String housingDensity;
