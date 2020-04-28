@@ -254,4 +254,21 @@ public class CensusAnalyserTest
             e.printStackTrace();
         }
     }
+
+    /*TC 9.1: Given State Census data when sorted should return sorted start population state*/
+    @Test
+    public void givenCensusCSVData_WhenSorted_ThenReturnSortedStartPopulationState()
+    {
+        try
+        {
+            censusAnalyser.loadStateCensusCSVData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
+            String sortedData=censusAnalyser.getPopulationSortedData();
+            USCensusClass[] censusData = new Gson().fromJson(sortedData, USCensusClass[].class);
+            Assert.assertEquals("California",censusData[50].state);
+        }
+        catch (CensusAnalyserException | CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
