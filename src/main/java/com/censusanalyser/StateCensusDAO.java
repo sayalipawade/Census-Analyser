@@ -7,6 +7,8 @@ public class StateCensusDAO
     public long population;
     public int densityPerSqKm;
     public int areaInSqKm;
+
+    public String stateId;
     public StateCensusDAO(IndianStateCensusClass indianStateCensusClass)
     {
         state=indianStateCensusClass.getState();
@@ -17,5 +19,10 @@ public class StateCensusDAO
     public StateCensusDAO(StateCodePOJO indianStateCensusClass)
     {
         stateCode=indianStateCensusClass.getStateCode();
+    }
+
+    public StateCensusDAO(USCensusClass usCensusClass)
+    {
+        stateId=usCensusClass.stateId;
     }
 }

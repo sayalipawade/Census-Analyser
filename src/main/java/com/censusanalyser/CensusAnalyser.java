@@ -68,6 +68,31 @@ public class CensusAnalyser
         }
     }
 
+    //Read State Code CSV file
+    public int loadUSCensusData(String csvFilePath) throws CensusAnalyserException, CSVBuilderException
+    {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
+        {
+            ICSVBuilder icsvBuilder = CSVBuliderFactory.createCSVBulider();
+            Iterator<USCensusClass> stateIterator = icsvBuilder.getCSVfile(reader,USCensusClass.class);
+            Iterable<USCensusClass> stateCodeIterable = () -> stateIterator;
+            StreamSupport.stream(stateCodeIterable.spliterator(),false).
+                    forEach(censusCSV->csvStateCensusMap.put(censusCSV.state,new StateCensusDAO(censusCSV)));
+            censusDAOList=csvStateCensusMap.values().stream().collect(Collectors.toList());
+            return csvStateCensusMap.size();
+        }
+        catch (IOException e)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
+                    "Enter correct file name and type");
+        }
+        catch (RuntimeException e)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
+                    "Check delimiter and header");
+        }
+    }
+
     //getting state sorted data
     public String getStateWiseData() throws CensusAnalyserException
     {
@@ -120,6 +145,19 @@ public class CensusAnalyser
         return sortedDensity;
     }
 
+    //getting Area in descending order
+    public String getAreaWiseSortedData() throws CensusAnalyserException
+    {
+        if(censusDAOList.size()==0 | censusDAOList==null)
+        {
+            throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.NO_CENSUS_DATA,"No Data");
+        }
+        Comparator<StateCensusDAO> stateCodeComparator=Comparator.comparing(census->census.areaInSqKm);
+        this.descendingSort(stateCodeComparator);
+        String sortedArea=new Gson().toJson(censusDAOList);
+        return sortedArea;
+    }
+
     //Sort function to sort the State census data
     public void sort(Comparator<StateCensusDAO> stateCensusDAOComparator)
     {
@@ -130,6 +168,24 @@ public class CensusAnalyser
                 StateCensusDAO census1=censusDAOList.get(j);
                 StateCensusDAO census2=censusDAOList.get(j+1);
                 if(stateCensusDAOComparator.compare(census1,census2)>0)
+                {
+                    censusDAOList.set(j,census2);
+                    censusDAOList.set(j+1,census1);
+                }
+            }
+        }
+    }
+
+    //Sort function to sort the data in descending order
+    public void descendingSort(Comparator<StateCensusDAO> stateCensusDAOComparator)
+    {
+        for(int i=0;i<censusDAOList.size();i++)
+        {
+            for(int j=0;j<censusDAOList.size()-i-1;j++)
+            {
+                StateCensusDAO census1=censusDAOList.get(j);
+                StateCensusDAO census2=censusDAOList.get(j+1);
+                if(stateCensusDAOComparator.compare(census1,census2)<0)
                 {
                     censusDAOList.set(j,census2);
                     censusDAOList.set(j+1,census1);
