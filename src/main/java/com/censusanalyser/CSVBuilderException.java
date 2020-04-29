@@ -4,7 +4,7 @@ public class CSVBuilderException extends Exception
 {
     public enum Exception_Type
     {
-        UNABLE_TO_PARSE;
+        UNABLE_TO_PARSE
     }
     Exception_Type type;
     public CSVBuilderException(Exception_Type type,String message)

@@ -20,6 +20,7 @@ public class CensusAnalyser<E>
         this.csvStateCensusMap= new HashMap<>();
     }
     public enum Country {INDIA,US}
+    public enum SortingMode{POPULATION,AREA,DENSITY,STATE}
 
     //main method
     public static void main(String[] args)

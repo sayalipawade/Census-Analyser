@@ -1,5 +1,7 @@
 package com.censusanalyser;
 
+import java.util.Comparator;
+
 public class StateCensusDAO
 {
     public String state;
@@ -28,6 +30,26 @@ public class StateCensusDAO
         population=usCensusClass.population;
         areaInSqKm=usCensusClass.landArea;
         densityPerSqKm=usCensusClass.populationDensity;
+    }
 
+    public static Comparator<IndianStateCensusClass> getSortComparator(CensusAnalyser.SortingMode mode)
+    {
+        if(mode.equals(CensusAnalyser.SortingMode.STATE))
+        {
+            return Comparator.comparing(census->census.state);
+        }
+        if(mode.equals(CensusAnalyser.SortingMode.POPULATION))
+        {
+            return Comparator.comparing(IndianStateCensusClass::getPopulation).reversed();
+        }
+        if(mode.equals(CensusAnalyser.SortingMode.AREA))
+        {
+            return Comparator.comparing(IndianStateCensusClass::getArea).reversed();
+        }
+        if(mode.equals(CensusAnalyser.SortingMode.DENSITY))
+        {
+            return Comparator.comparing(IndianStateCensusClass::getDensity).reversed();
+        }
+        return null;
     }
 }
