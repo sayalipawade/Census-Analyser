@@ -13,7 +13,7 @@ public abstract class CensusAdapter
 {
     public abstract Map<String,StateCensusDAO> loadCensusData(String... csvFilePath) throws CensusAnalyserException, CSVBuilderException;
     public <E> Map<String,StateCensusDAO> loadCensusData(Class<E> csvClass,String filePath) throws CensusAnalyserException,
-                                                                                                CSVBuilderException
+            CSVBuilderException
     {
         Map<String, StateCensusDAO> csvStateCensusMap = new HashMap<>();
         try (Reader reader = newBufferedReader(Paths.get(filePath)))
@@ -40,5 +40,4 @@ public abstract class CensusAdapter
         }
         return csvStateCensusMap;
     }
-
 }

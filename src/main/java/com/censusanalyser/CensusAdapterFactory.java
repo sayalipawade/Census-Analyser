@@ -13,7 +13,7 @@ public class CensusAdapterFactory
         }
         else if (country.equals(CensusAnalyser.Country.US))
         {
-            return new USCensusAdapter().loadCensusData(csvFilePath[0]);
+            return new USCensusAdapter().loadCensusData(csvFilePath);
         }
         else
         {

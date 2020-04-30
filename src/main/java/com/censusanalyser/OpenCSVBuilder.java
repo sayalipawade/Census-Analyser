@@ -3,19 +3,12 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.Reader;
 import java.util.Iterator;
-import java.util.List;
 
 public class OpenCSVBuilder implements ICSVBuilder
 {
     public <E>Iterator<E> getCSVfile(Reader reader, Class<E> csvClass) throws CSVBuilderException
     {
         return this.getCSVToBean(reader,csvClass).iterator();
-    }
-
-    @Override
-    public <E>List<E> getFileList(Reader reader, Class<E> csvClass) throws CSVBuilderException
-    {
-        return this.getCSVToBean(reader,csvClass).parse();
     }
 
     public <E> CsvToBean<E> getCSVToBean(Reader reader, Class<E> csvClass) throws CSVBuilderException

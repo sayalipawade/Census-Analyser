@@ -15,15 +15,18 @@ public class StateCodePOJO
     @CsvBindByName(column = "StateCode",required = true)
     public String stateCode;
 
-    public int getSrNo() {
+    public int getSrNo()
+    {
         return srNo;
     }
 
-    public void setSrNo(int srNo) {
+    public void setSrNo(int srNo)
+    {
         this.srNo = srNo;
     }
 
-    public String getState() {
+    public String getState()
+    {
         return state;
     }
 
@@ -31,11 +34,13 @@ public class StateCodePOJO
         this.state = state;
     }
 
-    public int getTin() {
+    public int getTin()
+    {
         return tin;
     }
 
-    public void setTin(int tin) {
+    public void setTin(int tin)
+    {
         this.tin = tin;
     }
 
@@ -43,7 +48,8 @@ public class StateCodePOJO
         return stateCode;
     }
 
-    public void setStateCode(String stateCode) {
+    public void setStateCode(String stateCode)
+    {
         this.stateCode = stateCode;
     }
 

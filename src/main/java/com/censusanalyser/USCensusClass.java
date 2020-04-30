@@ -3,7 +3,7 @@ import com.opencsv.bean.CsvBindByName;
 public class USCensusClass
 {
     @CsvBindByName(column="State Id")
-    public String stateId;
+    public String stateCode;
 
     @CsvBindByName(column = "State")
     public String state;
@@ -15,18 +15,17 @@ public class USCensusClass
     public String housingUnits;
 
     @CsvBindByName(column = "Total area")
-    public String totalArea;
+    public double totalArea;
 
     @CsvBindByName(column ="Water area")
     public String water;
 
     @CsvBindByName(column = "Land area")
-    public int landArea;
+    public double landArea;
 
     @CsvBindByName(column = "Population Density")
     public int populationDensity;
 
     @CsvBindByName(column = "Housing Density")
     public String housingDensity;
-
 }

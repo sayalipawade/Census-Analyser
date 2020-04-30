@@ -30,15 +30,15 @@ public class CensusAnalyser<E>
 
     // Read State census CSV file
     public int loadStateCensusCSVData(Country country, String... csvFilePath) throws CensusAnalyserException,
-                                                                                                CSVBuilderException
+            CSVBuilderException
     {
         csvStateCensusMap = CensusAdapterFactory.getCensusData(country, csvFilePath);
         censusDAOList = csvStateCensusMap.values().stream().collect(Collectors.toList());
         return csvStateCensusMap.size();
     }
 
-   //Read State Code CSV file
-   public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException, CSVBuilderException
+    //Read State Code CSV file
+    public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException, CSVBuilderException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
@@ -53,12 +53,12 @@ public class CensusAnalyser<E>
         catch (IOException e)
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.FILE_NOT_FOUND,
-                                                                                    "Enter correct file name and type");
+                    "Enter correct file name and type");
         }
         catch (RuntimeException e)
         {
             throw new CensusAnalyserException(CensusAnalyserException.Exception_Type.INCORRECT_DELIMETER,
-                                                                                        "Check delimiter and header");
+                    "Check delimiter and header");
         }
     }
 
@@ -102,7 +102,7 @@ public class CensusAnalyser<E>
     }
 
     //getting density in sorted order
-    public String getDensityWiseSortedData() throws CensusAnalyserException
+    public String getDensityWiseSortedData(SortingMode density) throws CensusAnalyserException
     {
         if(censusDAOList.size()==0 | censusDAOList==null)
         {
@@ -115,7 +115,7 @@ public class CensusAnalyser<E>
     }
 
     //getting Area in descending order
-    public String getAreaWiseSortedData() throws CensusAnalyserException
+    public String getAreaWiseSortedData(SortingMode area) throws CensusAnalyserException
     {
         if(censusDAOList.size()==0 | censusDAOList==null)
         {
@@ -162,5 +162,33 @@ public class CensusAnalyser<E>
             }
         }
     }
-}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
