@@ -89,7 +89,7 @@ public class CensusAnalyser<E>
     }
 
     //getting population in sorted order
-    public String getPopulationSortedData() throws CensusAnalyserException
+    public String getPopulationSortedData(SortingMode population) throws CensusAnalyserException
     {
         if(censusDAOList.size()==0 || censusDAOList==null)
         {
